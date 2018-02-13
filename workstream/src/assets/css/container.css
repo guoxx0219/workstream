@@ -1,0 +1,22 @@
+.router-link-active{
+    color: rgb(255, 255, 255);
+    height: 50px;
+    display: block;
+    width: 100%;
+}
+.el-table__header-wrapper{
+    height: auto!important;
+}
+th{
+    border-right: 1px solid #ebeef5 !important;
+}
+.main{
+    width: 85% !important;
+    padding: 20px;
+}
+.capital{
+    line-height: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #606266!important;
+}
