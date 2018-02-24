@@ -8,6 +8,7 @@
         <div class="mui-card" v-for="item in given" :key="item.ltime">
             <!--页眉，放置标题-->
             <div class="mui-card-header mui-card-media">
+                <img :src="'http://localhost:8888/'+item.photo" alt="">
                 <div class="mui-media-body">
                     {{mes}}：{{item.uname}}
                     <p>发送于 {{item.ltime}}</p>
@@ -23,11 +24,16 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue'
+    import moment from 'moment-timezone'
+    Vue.use(moment)
+
     export default {
         name:'card',
         data(){
             return{
-                given:[]
+                given:[],
+                img:""
             }
         },
         watch:{

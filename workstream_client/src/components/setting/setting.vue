@@ -5,7 +5,7 @@
             <div class="setCon">
                 <div class="setTop">
                     <div class="images">
-                        <img src="../../assets/img/photo.jpg" alt="" @click="editImg">
+                        <img :src="'http://localhost:8888/'+imgFile" alt="" @click="editImg">
                     </div>
                 </div>
                 <ul class="mui-table-view">
@@ -26,8 +26,8 @@
         </form>
         <div id="forward" class="mui-popover mui-popover-action mui-popover-bottom">
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell" @click="picture">拍照
-                </li>
+                <!--<li class="mui-table-view-cell" @click="picture">拍照-->
+                <!--</li>-->
                 <li class="mui-table-view-cell" @click="selectFile">从相册中选择
                 </li>
             </ul>
@@ -114,6 +114,10 @@
                 file.click();
                 //图片大小最大为200k
                 var maxSize = 200 * 1024;
+                this.mask = false;
+                var forward = document.querySelector("#forward");
+                forward.style.opacity = 0;
+                this.showNav = true;
                 file.onchange = function () {
                     //图片信息:大小，name
                     var data = this.files[0];
@@ -132,7 +136,12 @@
                             //上传头像到服务器
                             that.update(formData);
                         }else{
-                            this.mes = "图片大小不超过200k";
+                            that.mask = true;
+                            that.mes = "图片大小不超过200k";
+                            setTimeout(()=>{
+                                that.mask = false;
+                                that.mes = "";
+                            },2000);
                         }
                     }
                 }
@@ -156,11 +165,16 @@
                     }).then(e=>{
                         return e.text();
                     }).then(res=>{
+                        this.mask = true;
                         if(res == "ok"){
                             this.mes = "更改头像成功";
                         }else{
                             this.mes = "更改头像失败"
                         }
+                        setTimeout(()=>{
+                            this.mask = false;
+                            this.mes = "";
+                        },2000);
                     })
                 });
             },
@@ -173,6 +187,14 @@
                 this.showNav = true;
             }
         },
+        mounted(){
+            var uid = this.$store.state.uid;
+            fetch("/app/selectImg?uid="+uid).then(e=>{
+                return e.json();
+            }).then(res=>{
+                this.imgFile = res.photo;
+            })
+        }
     }
 </script>
 <style>
@@ -217,5 +239,21 @@
     }
     .mui-popover.mui-popover-action{
         width: 96%!important;
+    }
+    .mes{
+        width:70%;
+        height: 12%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right:0;
+        margin:auto;
+        background: #ffffff;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        z-index:9999;
+        line-height: 80px;
     }
 </style>

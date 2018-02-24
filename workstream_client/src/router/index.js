@@ -105,6 +105,8 @@ router.beforeEach((to,from,next)=>{
     }else{
         if(localStorage.login == "yes"){
             next();
+        }else if (to.path == "/admin"){
+            next();
         }else{
             router.push('/login');
         }
