@@ -9,6 +9,15 @@ var series = require('async/series');
 
 const router=light.Router();
 
+//走后台
+router.get("/admin",function (req,res) {
+    res.sendFile("./views/admin.html");
+});
+//走前台
+router.get("/",function (req,res) {
+    res.sendFile("./views/index.html");
+})
+
 /////////////////////////////  后台  /////////////////////////////
 
 //登录
@@ -551,8 +560,9 @@ router.get("/app/addUser",function (req,res) {
     var uname = req.query.uname;
     var pid = req.query.pid;
     var phone = req.query.phone;
+    var photo = "static/img/photo.jpg";
     var upass = md5('123456');
-    mysql.query(`replace into user (uname,pid,phone,upass,photo) values ('${uname}',${pid},'${phone}','${upass}','')`,function (err,data) {
+    mysql.query(`replace into user (uname,pid,phone,upass,photo) values ('${uname}',${pid},'${phone}','${upass}','${photo}')`,function (err,data) {
         if(err){
             res.end('err');
         }else{

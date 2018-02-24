@@ -103,9 +103,9 @@ router.get("/app/selectGive",function (req,res) {
     var type = req.query.type;
     var sql = "";
     if(type == "send"){
-        sql = `select user.uname,logs.title,logs.ltime,logs.con from user,logs where logs.uid1=${uid1} and user.uid=logs.uid2`;
+        sql = `select user.uname,user.photo,logs.title,logs.ltime,logs.con from user,logs where logs.uid1=${uid1} and user.uid=logs.uid2`;
     }else{
-        sql = `select user.uname,logs.title,logs.ltime,logs.con from user,logs where logs.uid2=${uid1} and user.uid=logs.uid1`;
+        sql = `select user.uname,user.photo,logs.title,logs.ltime,logs.con from user,logs where logs.uid2=${uid1} and user.uid=logs.uid1`;
     }
     mysql.query(sql,function (err,data) {
         if(err){
@@ -118,7 +118,7 @@ router.get("/app/selectGive",function (req,res) {
 
 //查询联系人
 router.get("/app/showPer",function (req,res) {
-    mysql.query("select * from user",function (err,data) {
+    mysql.query("select uid,uname,photo,pid,phone from user",function (err,data) {
         if(err){
             res.end("err");
         }else{
@@ -187,6 +187,18 @@ router.get("/app/editUname",function (req,res) {
         }
     })
 });
+
+//查询图片
+router.get("/app/selectImg",function (req,res) {
+    var uid = req.query.uid;
+    mysql.query("select photo from user where uid="+uid,function (err,data) {
+        if(err){
+            res.end("err");
+        }else{
+            res.end(JSON.stringify(data[0]));
+        }
+    })
+})
 
 //上传图片
 router.post("/app/editImg",function (req,res) {
