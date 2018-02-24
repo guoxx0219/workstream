@@ -24,7 +24,9 @@
         methods:{
             select(data){
                 this.part.forEach(ele=>{
-                    return ele.style.color = '';
+                    if(ele.style) {
+                        ele.style.color = 'none';
+                    }
                 })
                 data.style.color = '#409EFF';
                 this.$store.commit('setUserPid',data.pid);

@@ -22,6 +22,9 @@
             <el-table-column
                     prop="photo"
                     label="用户头像">
+                <div slot-scope="scope" class="imgBox">
+                    <img alt="" :src="'http://localhost:8888/'+scope.row.photo">
+                </div>
             </el-table-column>
             <el-table-column
                     prop="pname"
@@ -50,6 +53,9 @@
                 this.show = showInfo.show;
                 return showInfo.user;
             }
+        },
+        mounted(){
+            this.$store.commit('setShowUser',{user:[],show:false});
         },
         watch:{
             $route(){
